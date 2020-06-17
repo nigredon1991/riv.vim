@@ -10,6 +10,7 @@ let s:cpo_save = &cpo
 set cpo-=C
 
 let s:p = g:_riv_p
+let s:separator_between_lines_in_table = ""
 
 fun! riv#table#format() "{{{
     " if g:_riv_c.has_py
@@ -263,7 +264,11 @@ fun! s:grid_table.parse_col_max_width() dict "{{{
 endfun "}}}
 fun! s:grid_table.lines(indent) dict "{{{
     let idt = repeat(" ", a:indent)
-    let sepr = idt . "+" . join(map(copy(self.col_max_w),' repeat("-", v:val+1)'),"+") . "+"
+    if s:separator_between_lines_in_table == ""
+        let sepr = ""
+    else
+        let sepr = idt . "+" . join(map(copy(self.col_max_w),' repeat("-", v:val+1)'),"+") . "+"
+    endif
     let head = substitute(sepr, '-','=','g')
     let lines = []
     for row in self.list
