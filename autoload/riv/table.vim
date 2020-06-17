@@ -14,7 +14,6 @@ if exists("g:separator_between_lines_in_table") "{{{
     let s:separator_between_lines_in_table = g:separator_between_lines_in_table
 else
     let s:separator_between_lines_in_table = "+"
-else
 endif "}}}
 
 fun! riv#table#format() "{{{
