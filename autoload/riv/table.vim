@@ -10,7 +10,12 @@ let s:cpo_save = &cpo
 set cpo-=C
 
 let s:p = g:_riv_p
-let s:separator_between_lines_in_table = ""
+if exists("g:separator_between_lines_in_table") "{{{
+    let s:separator_between_lines_in_table = g:separator_between_lines_in_table
+else
+    let s:separator_between_lines_in_table = "+"
+else
+endif "}}}
 
 fun! riv#table#format() "{{{
     " if g:_riv_c.has_py
@@ -267,7 +272,11 @@ fun! s:grid_table.lines(indent) dict "{{{
     if s:separator_between_lines_in_table == ""
         let sepr = ""
     else
-        let sepr = idt . "+" . join(map(copy(self.col_max_w),' repeat("-", v:val+1)'),"+") . "+"
+        if s:separator_between_lines_in_table != "+"
+            let sepr = idt . s:separator_between_lines_in_table . join(map(copy(self.col_max_w),' repeat("-", v:val+1)'),s:separator_between_lines_in_table) . s:separator_between_lines_in_table
+        else
+            let sepr = idt . "+" . join(map(copy(self.col_max_w),' repeat("-", v:val+1)'),"+") . "+"
+        endif
     endif
     let head = substitute(sepr, '-','=','g')
     let lines = []
